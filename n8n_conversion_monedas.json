@@ -1,0 +1,138 @@
+{
+  "name": "n8n_conversion_monedas",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "916ec0b6-62cb-4868-a4e5-a31c280c9c43",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://v6.exchangerate-api.com/v6/2b4d6a0a7b2112474f6b1d85/latest/USD",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "fb108359-9b04-468b-9aab-45c817858cc9",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://discord.com/api/webhooks/1523111931374997735/Fh_t4kPnj1xfLtlfSE982b_GJuq51FaK6qArJ1u2KmUMZdglzyvVxhIkD8hg0mzKYYKf",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "content",
+              "value": "={{\n\"╔════════════════════════════════════╗\\n\" +\n\"        🌍 **CONVERSOR GLOBAL DE DIVISAS** 🌍\\n\" +\n\"╚════════════════════════════════════╝\\n\\n\" +\n\n\"🇨🇴 **Valor base:** **1.000 Pesos Colombianos (COP)**\\n\\n\" +\n\n\"💵 **AMÉRICA**\\n\" +\n\"🇺🇸 Estados Unidos (USD): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.USD).toFixed(4) + \"** USD\\n\" +\n\"🇨🇦 Canadá (CAD): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.CAD).toFixed(4) + \"** CAD\\n\" +\n\"🇲🇽 México (MXN): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.MXN).toFixed(4) + \"** MXN\\n\" +\n\"🇧🇷 Brasil (BRL): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.BRL).toFixed(4) + \"** BRL\\n\" +\n\"🇦🇷 Argentina (ARS): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.ARS).toFixed(2) + \"** ARS\\n\" +\n\"🇨🇱 Chile (CLP): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.CLP).toFixed(2) + \"** CLP\\n\" +\n\"🇵🇪 Perú (PEN): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.PEN).toFixed(4) + \"** PEN\\n\\n\" +\n\n\"🌍 **EUROPA**\\n\" +\n\"🇪🇺 Euro (EUR): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.EUR).toFixed(4) + \"** EUR\\n\" +\n\"🇬🇧 Reino Unido (GBP): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.GBP).toFixed(4) + \"** GBP\\n\" +\n\"🇨🇭 Suiza (CHF): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.CHF).toFixed(4) + \"** CHF\\n\\n\" +\n\n\"🌏 **ASIA**\\n\" +\n\"🇯🇵 Japón (JPY): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.JPY).toFixed(2) + \"** JPY\\n\" +\n\"🇨🇳 China (CNY): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.CNY).toFixed(4) + \"** CNY\\n\" +\n\"🇰🇷 Corea del Sur (KRW): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.KRW).toFixed(2) + \"** KRW\\n\" +\n\"🇮🇳 India (INR): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.INR).toFixed(2) + \"** INR\\n\\n\" +\n\n\"🌏 **OCEANÍA**\\n\" +\n\"🇦🇺 Australia (AUD): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.AUD).toFixed(4) + \"** AUD\\n\" +\n\"🇳🇿 Nueva Zelanda (NZD): **\" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.NZD).toFixed(4) + \"** NZD\\n\\n\" +\n\n\"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n\" +\n\"📅 **INFORMACIÓN**\\n\\n\" +\n\"📊 **Tasas actualizadas:** \" +\nnew Date($node['HTTP Request'].json.time_last_update_unix * 1000).toLocaleString('es-CO', {\n  timeZone: 'America/Bogota',\n  weekday: 'long',\n  year: 'numeric',\n  month: 'long',\n  day: 'numeric',\n  hour: '2-digit',\n  minute: '2-digit'\n}) + \"\\n\\n\" +\n\n\"📨 **Mensaje enviado:** \" +\nnew Date().toLocaleString('es-CO', {\n  timeZone: 'America/Bogota',\n  weekday: 'long',\n  year: 'numeric',\n  month: 'long',\n  day: 'numeric',\n  hour: '2-digit',\n  minute: '2-digit'\n}) + \"\\n\\n\" +\n\n\"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n\" +\n\"🤖 **Automatizado con n8n**\"\n}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "500c816f-c296-42a1-b92c-dfd17af83dba",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "url": "https://api.callmebot.com/whatsapp.php",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "phone",
+              "value": "573175497530"
+            },
+            {
+              "name": "text",
+              "value": "={{\n\"🌍 *CONVERSOR GLOBAL DE DIVISAS*\\n\\n\" +\n\n\"🇨🇴 *Valor base:* *1.000 Pesos Colombianos (COP)*\\n\\n\" +\n\n\"💵 *AMÉRICA*\\n\" +\n\"🇺🇸 Estados Unidos (USD): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.USD).toFixed(4) + \" USD\\n\" +\n\"🇨🇦 Canadá (CAD): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.CAD).toFixed(4) + \" CAD\\n\" +\n\"🇲🇽 México (MXN): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.MXN).toFixed(4) + \" MXN\\n\" +\n\"🇧🇷 Brasil (BRL): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.BRL).toFixed(4) + \" BRL\\n\" +\n\"🇦🇷 Argentina (ARS): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.ARS).toFixed(2) + \" ARS\\n\" +\n\"🇨🇱 Chile (CLP): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.CLP).toFixed(2) + \" CLP\\n\" +\n\"🇵🇪 Perú (PEN): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.PEN).toFixed(4) + \" PEN\\n\\n\" +\n\n\"🌍 *EUROPA*\\n\" +\n\"🇪🇺 Euro (EUR): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.EUR).toFixed(4) + \" EUR\\n\" +\n\"🇬🇧 Reino Unido (GBP): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.GBP).toFixed(4) + \" GBP\\n\" +\n\"🇨🇭 Suiza (CHF): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.CHF).toFixed(4) + \" CHF\\n\\n\" +\n\n\"🌏 *ASIA*\\n\" +\n\"🇯🇵 Japón (JPY): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.JPY).toFixed(2) + \" JPY\\n\" +\n\"🇨🇳 China (CNY): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.CNY).toFixed(4) + \" CNY\\n\" +\n\"🇰🇷 Corea del Sur (KRW): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.KRW).toFixed(2) + \" KRW\\n\" +\n\"🇮🇳 India (INR): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.INR).toFixed(2) + \" INR\\n\\n\" +\n\n\"🌏 *OCEANÍA*\\n\" +\n\"🇦🇺 Australia (AUD): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.AUD).toFixed(4) + \" AUD\\n\" +\n\"🇳🇿 Nueva Zelanda (NZD): \" + ((1000/$node['HTTP Request'].json.conversion_rates.COP)*$node['HTTP Request'].json.conversion_rates.NZD).toFixed(4) + \" NZD\\n\\n\" +\n\n\"━━━━━━━━━━━━━━━━━━━━\\n\" +\n\n\"📅 *INFORMACIÓN*\\n\\n\" +\n\n\"📊 Tasas actualizadas:\\n\" +\nnew Date($node['HTTP Request'].json.time_last_update_unix * 1000).toLocaleString('es-CO',{\ntimeZone:'America/Bogota',\nweekday:'long',\nyear:'numeric',\nmonth:'long',\nday:'numeric',\nhour:'2-digit',\nminute:'2-digit'\n}) +\n\n\"\\n\\n📨 Mensaje enviado:\\n\" +\n\nnew Date().toLocaleString('es-CO',{\ntimeZone:'America/Bogota',\nweekday:'long',\nyear:'numeric',\nmonth:'long',\nday:'numeric',\nhour:'2-digit',\nminute:'2-digit'\n}) +\n\n\"\\n\\n━━━━━━━━━━━━━━━━━━━━\\n\" +\n\n\"🤖 Automatizado con n8n\\n\" +\n\"💙 Desarrollado por Sebastián F.\"\n}}"
+            },
+            {
+              "name": "apikey",
+              "value": "9709454"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        352,
+        -175.60002517700195
+      ],
+      "id": "7b42781f-7745-4fc1-90f4-6a88c5c2a2ba",
+      "name": "HTTP Request2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "741113b2-f429-4f23-97ab-5ccee8d9d30b",
+  "meta": {
+    "instanceId": "09e7a23d896b667e7a6dc84b82b97385e26edf95083de265f3328aebe8da1b24"
+  },
+  "id": "bucr1Qx2evMWP4LT",
+  "tags": []
+}
