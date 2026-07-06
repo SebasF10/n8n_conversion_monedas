@@ -11,7 +11,7 @@
 
 # Descripción del proyecto
 
-Este proyecto consiste en la construcción de un **workflow automatizado en n8n** capaz de consultar diariamente las tasas oficiales de cambio mediante una API pública, realizar conversiones desde **Pesos Colombianos (COP)** hacia diferentes monedas internacionales y enviar automáticamente el resultado tanto a **Discord** como a **WhatsApp**.
+Este proyecto consiste en la construcción de un **workflow automatizado en n8n** capaz de consultar diariamente las tasas oficiales de cambio mediante una API pública, realizar conversiones desde **Pesos Colombianos (COP)** hacia diferentes monedas internacionales y enviar automáticamente el resultado tanto a **Discord**, **WhatsApp** como a **Telegram**.
 
 El flujo fue desarrollado utilizando nodos de automatización, consumo de APIs REST, solicitudes HTTP y expresiones dinámicas de n8n.
 
@@ -124,6 +124,30 @@ GET
 
 ---
 
+## Telegram Bot API
+
+Se utilizó la API de bots de Telegram para enviar automáticamente el mismo reporte a un chat o canal mediante un bot.
+
+Endpoint de ejemplo:
+
+```
+https://api.telegram.org/bot<API_TOKEN>/sendMessage
+```
+
+Parámetros principales:
+
+- `chat_id`: ID del chat o canal donde se enviará el mensaje.
+- `text`: El contenido del mensaje (enviable como Markdown o HTML según configuración).
+- `parse_mode`: `Markdown` o `HTML` si se desea formato.
+
+Método:
+
+```
+POST
+```
+
+---
+
 # Desarrollo paso a paso
 
 ## Paso 1
@@ -197,15 +221,23 @@ El mensaje incluye:
 
 ## Paso 5
 
+Se configuró un nodo HTTP Request para enviar exactamente el mismo reporte mediante la API de Telegram usando un bot.
+
+![Resultado en Telegram](Imagenes/img7_telegram.jpeg)
+
+---
+
+## Paso 6
+
 Se configuró un segundo HTTP Request para enviar exactamente el mismo reporte mediante la API de WhatsApp (CallMeBot).
 
 ![Resultado en WhatsApp](Imagenes/img5n8n.jpeg)
 
 ---
 
-## Paso 6
+## Paso 7
 
-Finalmente se obtuvo el workflow completo funcionando con ambos envíos automáticos.
+Finalmente se obtuvo el workflow completo funcionando con los envíos automáticos a Discord, WhatsApp y Telegram.
 
 ![Workflow completo](Imagenes/img6n8n.jpeg)
 
